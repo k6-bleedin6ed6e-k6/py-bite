@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Python Tutor{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Your Personal Python Tutor</h1>
+    <p class="subtitle">Master Python step by step — 5 chapters, hands-on exercises, and instant feedback.</p>
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-number">{{ summary.total_lessons }}</span>
+            <span class="stat-label">Lessons</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">{{ summary.completed_lessons }}</span>
+            <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">{{ summary.chapters | selectattr('quiz_passed') | list | length }}</span>
+            <span class="stat-label">Quizzes Passed</span>
+        </div>
+    </div>
+</div>
+
+<section class="chapters-grid">
+    {% for ch in summary.chapters %}
+    <article class="chapter-card" data-chapter="{{ ch.id }}">
+        <div class="chapter-header">
+            <span class="chapter-number">Chapter {{ ch.number }}</span>
+            <h2>{{ ch.title }}</h2>
+            <p class="chapter-subtitle">{{ ch.subtitle }}</p>
+        </div>
+        <div class="chapter-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ (ch.completed_lessons / ch.total_lessons * 100) if ch.total_lessons else 0 }}%"></div>
+            </div>
+            <span class="progress-text">{{ ch.completed_lessons }}/{{ ch.total_lessons }} lessons</span>
+        </div>
+        {% if ch.quiz_passed %}
+        <span class="badge badge-passed">Quiz Passed ({{ ch.quiz_score }}/{{ ch.quiz_total }})</span>
+        {% endif %}
+        <a href="/chapter/{{ ch.id }}" class="btn btn-primary">Start Chapter</a>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}

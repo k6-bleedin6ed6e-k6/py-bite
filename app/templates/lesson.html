@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }} | Python Tutor{% endblock %}
+
+{% block content %}
+<nav class="breadcrumbs">
+    <a href="/">Dashboard</a>
+    <span>/</span>
+    <a href="/chapter/{{ chapter.id }}">{{ chapter.title }}</a>
+    <span>/</span>
+    <span>{{ lesson.title }}</span>
+</nav>
+
+<article class="lesson">
+    <header class="lesson-header">
+        <h1>{{ lesson.title }}</h1>
+        <span class="lesson-duration">{{ lesson.duration }}</span>
+        {% if completed %}
+        <span class="badge badge-completed" id="completion-badge">Completed</span>
+        {% else %}
+        <span class="badge badge-pending" id="completion-badge">In Progress</span>
+        {% endif %}
+    </header>
+
+    <section class="objectives">
+        <h2>Learning Objectives</h2>
+        <ul>
+            {% for obj in lesson.objectives %}
+            <li>{{ obj }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% for section in lesson.sections %}
+    <section class="lesson-section">
+        <h2>{{ section.heading }}</h2>
+        <p>{{ section.body }}</p>
+        {% if section.note %}
+        <div class="note">{{ section.note }}</div>
+        {% endif %}
+        {% if section.code %}
+        <div class="code-block">
+            <pre><code class="language-python">{{ section.code }}</code></pre>
+            <button class="btn btn-small btn-run" onclick="runInEditor(this)" data-code="{{ section.code | e }}">▶ Run in Editor</button>
+        </div>
+        {% endif %}
+    </section>
+    {% endfor %}
+
+    <section class="exercise">
+        <h2>📝 Exercise: {{ lesson.exercise.title }}</h2>
+        <p>{{ lesson.exercise.instruction }}</p>
+        <div class="editor-wrap">
+            <div class="editor-header">
+                <span class="editor-title">code.py</span>
+                <div class="editor-actions">
+                    <button class="btn btn-small btn-run" onclick="runExercise()">▶ Run</button>
+                    <button class="btn btn-small btn-reset" onclick="resetExercise()">↺ Reset</button>
+                </div>
+            </div>
+            <textarea id="code-editor" class="code-editor" spellcheck="false">{{ lesson.exercise.starter_code }}</textarea>
+            <div class="output-wrap">
+                <div class="output-header">Output</div>
+                <pre id="code-output" class="code-output"></pre>
+            </div>
+        </div>
+    </section>
+
+    <div class="lesson-nav">
+        <a href="/chapter/{{ chapter.id }}" class="btn btn-ghost">← Back to Chapter</a>
+        <button class="btn btn-primary" id="mark-complete-btn" onclick="markComplete('{{ lesson.id }}')">
+            {% if completed %}Completed ✓{% else %}Mark as Complete{% endif %}
+        </button>
+    </div>
+</article>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const ORIGINAL_CODE = {{ lesson.exercise.starter_code | tojson }};
+</script>
+{% endblock %}
