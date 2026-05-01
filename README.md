@@ -1,6 +1,8 @@
-# 🐍 Python Tutor
+# 🐍 py-bite
 
 A local Flask web app that mirrors your exact Python course syllabus — chapter by chapter, with quizzes, progress tracking, and an interactive code runner.
+
+> **Formerly "python-tutor"** — renamed for brevity.
 
 ## Why This Exists
 
@@ -12,40 +14,77 @@ Instead of passively watching videos, you are **building the tool that teaches y
 - **Interactive Code Editor** with a live Python subprocess runner
 - **Quiz Engine** with instant feedback and explanations
 - **Progress Tracking** stored locally in JSON
-- **Clean Dark UI** built with vanilla HTML/CSS/JS
-- **One-Command Install** via `install.sh`
+- **Clean Dark UI** built with vanilla HTML/JS
+- **Manager Script** — install, start, stop, update, uninstall like `war-room`
 
-## Quick Start
+---
+
+## Quick Start (Local)
+
+### Option A: Manager Script (recommended)
 
 ```bash
-# Clone the repo
-git clone <your-repo-url>
-cd python-tutor
+# 1. Copy py-bite.sh anywhere (Desktop, ~/scripts, etc.)
+# 2. Run it
+./py-bite.sh install   # clones repo, creates venv, installs deps
+./py-bite.sh start     # launches on http://localhost:5000
+./py-bite.sh stop      # kills the server
+./py-bite.sh status    # shows running state
+./py-bite.sh logs      # tail server output
+./py-bite.sh update    # pull latest + reinstall deps
+./py-bite.sh uninstall # DELETE everything (asks for confirmation)
+```
 
-# Install & run
+### Option B: Manual
+
+```bash
+git clone git@github.com:kwasikontor45/py-bite.git
+cd py-bite
 bash install.sh
 bash run.sh
 ```
 
-Then open [http://localhost:5000](http://localhost:5000) in your browser.
-
-## Manual Setup
+### Option C: Really Manual
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 python run.py
 ```
 
+Then open [http://localhost:5000](http://localhost:5000).
+
+---
+
+## Can I Run This on My Website?
+
+**Short answer:** Not directly on static hosting (Cloudflare Pages, Netlify, GitHub Pages) because py-bite needs a Python backend to execute code and track progress.
+
+**Options to make it web-accessible:**
+
+| Option | Effort | Cost | Notes |
+|--------|--------|------|-------|
+| **Render** | Low | Free | Python web service tier. Auto-deploys from GitHub. Sleep after 15 min inactivity. |
+| **PythonAnywhere** | Low | Free | Flask-ready. Limited daily CPU. Good for light use. |
+| **Fly.io** | Medium | Free tier | Like war-room. Needs `fly.toml`. Stays awake if you add a credit card. |
+| **Self-hosted VPS** | Medium | $5/mo | Linode, DigitalOcean, Hetzner. Full control. |
+| **Static conversion** | High | Free | Lose code execution + progress tracking. Not recommended. |
+
+**Recommended path:** Deploy to **Render** (free, zero-config for Flask) and iframe or link it from `kontor.studio/arc-lt-labs`.
+
+---
+
 ## Project Structure
 
 ```
-python-tutor/
-├── install.sh              # One-command setup
+py-bite/
+├── py-bite.sh              # Manager script (install/start/stop/update/uninstall)
+├── install.sh              # One-command setup (alternative)
 ├── run.sh                  # Quick launcher
 ├── run.py                  # Flask entry point
 ├── requirements.txt        # Python deps
+├── README.md
 ├── app/
 │   ├── __init__.py         # Flask app factory
 │   ├── routes.py           # URL routes
@@ -63,8 +102,10 @@ python-tutor/
 │       ├── lesson.html
 │       └── quiz.html
 └── data/
-    └── progress.json       # Your local progress
+    └── .gitkeep            # progress.json lives here (gitignored)
 ```
+
+---
 
 ## How It Works
 
@@ -73,9 +114,13 @@ python-tutor/
 - **Progress** is saved to `data/progress.json` — no database needed.
 - **Code Execution** runs in a subprocess with a 5-second timeout. Safe mode uses AST filtering for simple expressions.
 
+---
+
 ## Customizing
 
 Want to add a new chapter? Edit `app/content.py` and follow the existing structure. Add a quiz in `app/quizzes.py` using the same `chapter_id`. That's it.
+
+---
 
 ## Tech Stack
 
