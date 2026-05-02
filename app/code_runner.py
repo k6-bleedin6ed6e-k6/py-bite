@@ -72,7 +72,8 @@ def run_code(source: str, mode: str = "safe") -> dict:
             result["stderr"] = f"Security block: {msg}"
             return result
 
-        namespace = {"__builtins__": {k: v for k, v in __builtins__.items() if k not in FORBIDDEN_BUILTINS}}
+        builtins_dict = vars(__builtins__) if isinstance(__builtins__, type(os)) else __builtins__
+        namespace = {"__builtins__": {k: v for k, v in builtins_dict.items() if k not in FORBIDDEN_BUILTINS}}
         try:
             exec(source, namespace)
             result["success"] = True
