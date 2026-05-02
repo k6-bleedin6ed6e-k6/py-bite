@@ -1,8 +1,10 @@
 # 🐍 py-bite
 
-A local Flask web app that mirrors your exact Python course syllabus — chapter by chapter, with quizzes, progress tracking, and an interactive code runner.
+A Flask web app that mirrors your exact Python course syllabus — chapter by chapter, with quizzes, progress tracking, and an interactive code runner.
 
 > **Formerly "python-tutor"** — renamed for brevity.
+
+**Live:** https://py-bite.kontor.studio (also https://py-bite.onrender.com)
 
 ## Why This Exists
 
