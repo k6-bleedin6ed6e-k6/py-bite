@@ -12,11 +12,11 @@ Instead of passively watching videos, you are **building the tool that teaches y
 
 ## Features
 
-- **5 Chapters** covering Python Basics, Control Flow, Functions, Collections, and Advanced Topics
+- **6 Chapters** covering Python Basics, Control Flow, Functions, Collections, Advanced Topics, and Object-Oriented Security Scripting (O-O/S-S)
 - **Interactive Code Editor** with a live Python subprocess runner
 - **Quiz Engine** with instant feedback and explanations
 - **Progress Tracking** stored locally in JSON
-- **Clean Dark UI** built with vanilla HTML/JS
+- **Rose Pine Moon × Phosphor Noir UI** with circadian engine — phases shift color palette by time of day (renewal · choice · desire · nyx)
 - **Manager Script** — install, start, stop, update, uninstall like `war-room`
 
 ---
@@ -111,8 +111,8 @@ py-bite/
 
 ## How It Works
 
-- **Content** is stored in `app/content.py` as plain Python data structures — easy to edit and extend.
-- **Quizzes** live in `app/quizzes.py`. Each chapter has 5 questions with multiple choice and true/false formats.
+- **Content** is stored per-chapter in `app/` — easy to edit and extend.
+- **Quizzes** live in `app/quizzes.py`. Each chapter has questions with multiple choice and true/false formats.
 - **Progress** is saved to `data/progress.json` — no database needed.
 - **Code Execution** runs in a subprocess with a 5-second timeout. Safe mode uses AST filtering for simple expressions.
 
