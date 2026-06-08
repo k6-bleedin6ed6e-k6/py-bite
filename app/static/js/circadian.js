@@ -11,7 +11,7 @@ const PHASES = {
     accentDark: '#c47a77',
     accentRgb:  '234,154,151',
     muted:      '#6e6a86',
-    label:      'dawn',
+    label:      'renewal',
   },
   day: {
     range:  [11, 17],
@@ -22,7 +22,7 @@ const PHASES = {
     accentDark: '#6eadb6',
     accentRgb:  '156,207,216',
     muted:      '#908caa',
-    label:      'day',
+    label:      'choice',
   },
   dusk: {
     range:  [17, 21],
@@ -33,7 +33,7 @@ const PHASES = {
     accentDark: '#d4a356',
     accentRgb:  '246,193,119',
     muted:      '#908caa',
-    label:      'dusk',
+    label:      'desire',
   },
   night: {
     range:  [21, 29],  // 21–04 (hours <5 get +24)
@@ -44,7 +44,7 @@ const PHASES = {
     accentDark: '#9c7dc7',
     accentRgb:  '196,167,231',
     muted:      '#6e6a86',
-    label:      'night',
+    label:      'nyx',
   },
 }
 
