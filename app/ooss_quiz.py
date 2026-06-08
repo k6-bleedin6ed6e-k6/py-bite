@@ -1,10 +1,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# CYB/135 quiz — add "ch6" to the QUIZZES dict in app/quizzes.py
+# O-O/S-S quiz — add "ch6" to the QUIZZES dict in app/quizzes.py
 # ─────────────────────────────────────────────────────────────────────────────
 
 OOSS_QUIZ = {
     "ch6": {
-        "title": "CYB/135 Quiz: Object-Oriented Security Scripting",
+        "title": "O-O/S-S Quiz: Object-Oriented Security Scripting",
         "questions": [
             {
                 "id": "q1",

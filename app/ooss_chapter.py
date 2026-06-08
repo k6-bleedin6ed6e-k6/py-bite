@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# CYB/135 — Object-Oriented Security Scripting chapter
+# O-O/S-S — Object-Oriented Security Scripting chapter
 # Drop this dict into the CHAPTERS list in app/content.py
 # Matches your existing chapter/lesson structure exactly.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -7,13 +7,14 @@
 OOSS_CHAPTER = {
     "id": "ch6",
     "number": 6,
-    "title": "Security Scripting (CYB/135)",
+    "title": "Security Scripting (O-O/S-S)",
     "subtitle": "OOP · Recursion · Network Automation · Forensics",
     "description": (
         "Apply Python to real cybersecurity tasks. "
         "Build OOP scanners, recursive directory crawlers, "
         "log analyzers, and a working port scanner — "
-        "covering every week of CYB/135."
+        "covering every week of object-oriented security-scripting. "
+        "Includes Capstone — Porting arc-sec-audit to Python."
     ),
     "lessons": [
 
