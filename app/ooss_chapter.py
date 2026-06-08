@@ -597,5 +597,241 @@ OOSS_CHAPTER = {
                 ),
             },
         },
+        # ── Capstone ──────────────────────────────────────────────────────────
+        {
+            "id": "ch6_l6",
+            "title": "Capstone — Porting arc-sec-audit to Python",
+            "duration": "30 min",
+            "objectives": [
+                "Understand how a real bash security tool maps to Python structure",
+                "Build an OOP Auditor base class with counters and output helpers",
+                "Translate sysctl, stat, grep, and find patterns to Python equivalents",
+                "Write runnable exercises on the pure-Python parts of the tool",
+            ],
+            "sections": [
+                {
+                    "heading": "What arc-sec-audit Does",
+                    "body": (
+                        "arc-sec-audit is a 392-line bash workstation hardening scanner. "
+                        "It runs nine check categories — SSH config, kernel params, "
+                        "file permissions, SUID binaries, world-writable files, "
+                        "sudoers, listening services, packages, and system integrity — "
+                        "then prints a colour-coded pass / warn / fail summary. "
+                        "Porting it to Python means: one class per concept, "
+                        "subprocess replaces shell commands, pathlib replaces stat, "
+                        "re replaces grep."
+                    ),
+                    "code": (
+                        "# bash → python pattern map\n"
+                        "#\n"
+                        "# _pass=0                    self.passed = 0\n"
+                        "# _ok()  { (( _pass++ )) }  def ok(self, msg): ...\n"
+                        "# _check_ssh()              def check(a): in checks/ssh.py\n"
+                        "# sysctl -n key             subprocess.run(['sysctl','-n',key])\n"
+                        "# stat -c '%a' file         oct(Path(file).stat().st_mode)[-3:]\n"
+                        "# grep -rihE pat | tail -1  re.finditer() — take last match\n"
+                        "# find / -perm -4000        subprocess.run(['find',...])\n"
+                    ),
+                    "note": None,
+                },
+                {
+                    "heading": "The Auditor Base Class",
+                    "body": (
+                        "Every bash script has global counters and output helpers. "
+                        "In Python those become an Auditor class. "
+                        "One instance is created at startup and passed into every check function. "
+                        "This is the OOP pattern from lesson 1 applied to a real tool."
+                    ),
+                    "code": (
+                        "class Auditor:\n"
+                        "    def __init__(self):\n"
+                        "        self.passed   = 0\n"
+                        "        self.warnings = 0\n"
+                        "        self.failed   = 0\n"
+                        "\n"
+                        "    def ok(self, msg):\n"
+                        "        print(f'  ✓  {msg}')\n"
+                        "        self.passed += 1\n"
+                        "\n"
+                        "    def warn(self, msg):\n"
+                        "        print(f'  !  {msg}')\n"
+                        "        self.warnings += 1\n"
+                        "\n"
+                        "    def fail(self, msg):\n"
+                        "        print(f'  ✗  {msg}')\n"
+                        "        self.failed += 1\n"
+                        "\n"
+                        "    def summary(self):\n"
+                        "        print(f'  {self.passed} passed  ·  '\n"
+                        "              f'{self.warnings} warnings  ·  '\n"
+                        "              f'{self.failed} failed')\n"
+                        "\n"
+                        "a = Auditor()\n"
+                        "a.ok('PermitRootLogin  no')\n"
+                        "a.warn('PasswordAuthentication  yes  — should be no')\n"
+                        "a.summary()"
+                    ),
+                    "note": None,
+                },
+                {
+                    "heading": "File Permissions — pathlib Instead of stat",
+                    "body": (
+                        "The bash script shells out to stat -c \"%a\" to get octal permissions. "
+                        "In Python, pathlib.Path.stat() gives you the mode directly. "
+                        "oct(mode)[-3:] slices out the three permission digits. "
+                        "No subprocess needed — pure Python, runs anywhere."
+                    ),
+                    "code": (
+                        "from pathlib import Path\n"
+                        "\n"
+                        "def perm_chk(auditor, path, want):\n"
+                        "    p = Path(path)\n"
+                        "    if not p.exists():\n"
+                        "        auditor.info(f'{path}  not found — skipping')\n"
+                        "        return\n"
+                        "    actual = oct(p.stat().st_mode)[-3:]\n"
+                        "    if actual == want:\n"
+                        "        auditor.ok(f'{path}  {actual}')\n"
+                        "    else:\n"
+                        "        auditor.warn(f'{path}  {actual} — want {want}')\n"
+                        "\n"
+                        "# bash: actual=$(stat -c '%a' /etc/shadow)"
+                    ),
+                    "note": "This check runs fine in the browser — no subprocess, pure pathlib.",
+                },
+                {
+                    "heading": "SSH Config — re Instead of grep",
+                    "body": (
+                        "The bash version greps sshd_config for directives and pipes through awk. "
+                        "Python reads the file as a string and uses re.finditer(). "
+                        "sshd processes config top-to-bottom and last entry wins, "
+                        "so we take the last regex match, not the first."
+                    ),
+                    "code": (
+                        "import re\n"
+                        "\n"
+                        "fake_cfg = '''\n"
+                        "PermitRootLogin yes\n"
+                        "PasswordAuthentication yes\n"
+                        "PermitRootLogin no\n"
+                        "'''\n"
+                        "\n"
+                        "pattern = re.compile(\n"
+                        "    r'^PermitRootLogin\\s+(\\S+)',\n"
+                        "    re.IGNORECASE | re.MULTILINE\n"
+                        ")\n"
+                        "matches = list(pattern.finditer(fake_cfg))\n"
+                        "last = matches[-1].group(1).lower() if matches else None\n"
+                        "print(last)  # no — last entry wins"
+                    ),
+                    "note": None,
+                },
+                {
+                    "heading": "subprocess — The Bridge to OS Commands",
+                    "body": (
+                        "Checks that need sysctl, ss, find, or sudo shell out via subprocess.run(). "
+                        "The Auditor wraps this in a run() helper that always returns a string — "
+                        "empty string on failure — so every check handles missing tools gracefully. "
+                        "subprocess calls need a real Linux environment. "
+                        "Use them locally: sudo python arc_sec_audit.py"
+                    ),
+                    "code": (
+                        "import subprocess\n"
+                        "\n"
+                        "# inside Auditor class:\n"
+                        "def run(self, cmd, sudo=False, timeout=10):\n"
+                        "    if sudo:\n"
+                        "        cmd = ['sudo'] + cmd\n"
+                        "    try:\n"
+                        "        result = subprocess.run(\n"
+                        "            cmd, capture_output=True,\n"
+                        "            text=True, timeout=timeout\n"
+                        "        )\n"
+                        "        return result.stdout.strip()\n"
+                        "    except (subprocess.TimeoutExpired,\n"
+                        "            FileNotFoundError, PermissionError):\n"
+                        "        return ''\n"
+                        "\n"
+                        "def sysctl_chk(self, key, want, label, mode='exact'):\n"
+                        "    val_str = self.run(['sysctl', '-n', key])\n"
+                        "    if not val_str:\n"
+                        "        self.info(f'{label}  (not available)')\n"
+                        "        return\n"
+                        "    val = int(val_str)\n"
+                        "    if mode == 'min' and val >= want:\n"
+                        "        self.ok(f'{label}  {val}')\n"
+                        "    elif mode == 'exact' and val == want:\n"
+                        "        self.ok(f'{label}  {val}')\n"
+                        "    else:\n"
+                        "        self.warn(f'{label}  got {val}, want {want}')"
+                    ),
+                    "note": "Run locally: sudo python arc_sec_audit.py — subprocess requires a real Linux shell.",
+                },
+            ],
+            "exercise": {
+                "title": "Build a Mini Auditor",
+                "instruction": (
+                    "Build a miniature arc-sec-audit. "
+                    "Write check_shadow_perm() — takes an auditor and a simulated "
+                    "permission string, calls ok() if it matches '640', warn() otherwise. "
+                    "Then write check_root_login() — takes a config string, "
+                    "uses re to find the last PermitRootLogin value, "
+                    "calls ok() if 'no', warn() otherwise. "
+                    "Run both and print the summary."
+                ),
+                "starter_code": (
+                    "import re\n"
+                    "\n"
+                    "class Auditor:\n"
+                    "    def __init__(self):\n"
+                    "        self.passed   = 0\n"
+                    "        self.warnings = 0\n"
+                    "        self.failed   = 0\n"
+                    "\n"
+                    "    def ok(self, msg):\n"
+                    "        print(f'  ✓  {msg}')\n"
+                    "        self.passed += 1\n"
+                    "\n"
+                    "    def warn(self, msg):\n"
+                    "        print(f'  !  {msg}')\n"
+                    "        self.warnings += 1\n"
+                    "\n"
+                    "    def summary(self):\n"
+                    "        print(f'\\n  {self.passed} passed  ·  {self.warnings} warnings')\n"
+                    "\n"
+                    "\n"
+                    "def check_shadow_perm(a, simulated_perm):\n"
+                    "    want = '640'\n"
+                    "    if simulated_perm == want:\n"
+                    "        a.ok(f'/etc/shadow  {simulated_perm}')\n"
+                    "    else:\n"
+                    "        a.warn(f'/etc/shadow  {simulated_perm} — want {want}')\n"
+                    "\n"
+                    "\n"
+                    "def check_root_login(a, cfg_text):\n"
+                    "    pattern = re.compile(\n"
+                    "        r'^PermitRootLogin\\s+(\\S+)',\n"
+                    "        re.IGNORECASE | re.MULTILINE\n"
+                    "    )\n"
+                    "    matches = list(pattern.finditer(cfg_text))\n"
+                    "    val = matches[-1].group(1).lower() if matches else None\n"
+                    "    if val == 'no':\n"
+                    "        a.ok(f'PermitRootLogin  {val}')\n"
+                    "    else:\n"
+                    "        a.warn(f'PermitRootLogin  {val or chr(117)+chr(110)+chr(115)+chr(101)+chr(116)}  — should be no')\n"
+                    "\n"
+                    "\n"
+                    "a = Auditor()\n"
+                    "check_shadow_perm(a, '640')\n"
+                    "check_shadow_perm(a, '644')\n"
+                    "cfg = '''\n"
+                    "PermitRootLogin yes\n"
+                    "PermitRootLogin no\n"
+                    "'''\n"
+                    "check_root_login(a, cfg)\n"
+                    "a.summary()"
+                ),
+            },
+        },
     ],
 }
