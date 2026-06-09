@@ -142,6 +142,11 @@ a:hover {
 }
 .phase-indicator:hover { opacity: 1; }
 
+@keyframes phase-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(var(--accent-rgb), 0.35); }
+    50%       { box-shadow: 0 0 11px rgba(var(--accent-rgb), 0.85); }
+}
+
 #phase-dot {
     width: 7px;
     height: 7px;
@@ -150,6 +155,7 @@ a:hover {
     box-shadow: 0 0 7px rgba(var(--accent-rgb), 0.7);
     flex-shrink: 0;
     transition: background 1.8s ease, box-shadow 1.8s ease;
+    animation: phase-pulse 3s ease-in-out infinite;
 }
 
 #phase-label {
