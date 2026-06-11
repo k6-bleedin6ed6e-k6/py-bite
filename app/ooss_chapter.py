@@ -3,6 +3,8 @@
 # Drop this dict into the CHAPTERS list in app/content.py
 # Matches your existing chapter/lesson structure exactly.
 # ─────────────────────────────────────────────────────────────────────────────
+from .ch6_l3b import CH6_L3B
+
 
 OOSS_CHAPTER = {
     "id": "ch6",
@@ -347,6 +349,8 @@ OOSS_CHAPTER = {
                 ),
             },
         },
+
+        CH6_L3B,  # ← sorting algorithms
 
         # ── Week 4 ────────────────────────────────────────────────────────────
         {
