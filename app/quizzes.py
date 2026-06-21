@@ -1,5 +1,8 @@
 from .ooss_quiz import OOSS_QUIZ
 from .network_automation_quiz import NETWORK_AUTOMATION_QUIZ
+from .network_fundamentals_quiz import NETWORK_FUNDAMENTALS_QUIZ
+from .network_security_quiz import NETWORK_SECURITY_QUIZ
+from .automation_devnet_quiz import AUTOMATION_DEVNET_QUIZ
 
 QUIZZES = {
     "ch1": {
@@ -254,6 +257,9 @@ QUIZZES = {
     },
     **OOSS_QUIZ,
     **NETWORK_AUTOMATION_QUIZ,
+    **NETWORK_FUNDAMENTALS_QUIZ,
+    **NETWORK_SECURITY_QUIZ,
+    **AUTOMATION_DEVNET_QUIZ,
 }
 
 

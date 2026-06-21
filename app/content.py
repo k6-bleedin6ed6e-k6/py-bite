@@ -1,5 +1,8 @@
 from .ooss_chapter import OOSS_CHAPTER
 from .network_automation_chapter import NETWORK_AUTOMATION_CHAPTER
+from .network_fundamentals_chapter import NETWORK_FUNDAMENTALS_CHAPTER
+from .network_security_chapter import NETWORK_SECURITY_CHAPTER
+from .automation_devnet_chapter import AUTOMATION_DEVNET_CHAPTER
 
 CHAPTERS = [
     {
@@ -672,6 +675,9 @@ CHAPTERS = [
     },
     OOSS_CHAPTER,
     NETWORK_AUTOMATION_CHAPTER,
+    NETWORK_FUNDAMENTALS_CHAPTER,
+    NETWORK_SECURITY_CHAPTER,
+    AUTOMATION_DEVNET_CHAPTER,
 ]
 
 
