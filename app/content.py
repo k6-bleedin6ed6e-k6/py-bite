@@ -3,6 +3,8 @@ from .network_automation_chapter import NETWORK_AUTOMATION_CHAPTER
 from .network_fundamentals_chapter import NETWORK_FUNDAMENTALS_CHAPTER
 from .network_security_chapter import NETWORK_SECURITY_CHAPTER
 from .automation_devnet_chapter import AUTOMATION_DEVNET_CHAPTER
+from .network_management_chapter import NETWORK_MANAGEMENT_CHAPTER
+from .python_algorithms_chapter import PYTHON_ALGORITHMS_CHAPTER
 
 CHAPTERS = [
     {
@@ -678,6 +680,8 @@ CHAPTERS = [
     NETWORK_FUNDAMENTALS_CHAPTER,
     NETWORK_SECURITY_CHAPTER,
     AUTOMATION_DEVNET_CHAPTER,
+    NETWORK_MANAGEMENT_CHAPTER,
+    PYTHON_ALGORITHMS_CHAPTER,
 ]
 
 

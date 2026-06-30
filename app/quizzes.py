@@ -3,6 +3,8 @@ from .network_automation_quiz import NETWORK_AUTOMATION_QUIZ
 from .network_fundamentals_quiz import NETWORK_FUNDAMENTALS_QUIZ
 from .network_security_quiz import NETWORK_SECURITY_QUIZ
 from .automation_devnet_quiz import AUTOMATION_DEVNET_QUIZ
+from .network_management_quiz import NETWORK_MANAGEMENT_QUIZ
+from .python_algorithms_quiz import PYTHON_ALGORITHMS_QUIZ
 
 QUIZZES = {
     "ch1": {
@@ -260,6 +262,8 @@ QUIZZES = {
     **NETWORK_FUNDAMENTALS_QUIZ,
     **NETWORK_SECURITY_QUIZ,
     **AUTOMATION_DEVNET_QUIZ,
+    **NETWORK_MANAGEMENT_QUIZ,
+    **PYTHON_ALGORITHMS_QUIZ,
 }
 
 
