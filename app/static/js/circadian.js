@@ -74,7 +74,11 @@ function apply(phase) {
     dot.style.background = phase.accent
     dot.style.boxShadow  = `0 0 7px rgba(${phase.accentRgb}, 0.7)`
   }
-  if (label) label.textContent = phase.label
+  if (label) {
+    label.textContent = phase.label
+    label.style.color = phase.accent
+    label.style.textShadow = `0 0 9px rgba(${phase.accentRgb}, 0.45)`
+  }
 }
 
 function tick() {
