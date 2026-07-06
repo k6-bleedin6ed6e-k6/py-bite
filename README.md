@@ -4,7 +4,7 @@ A Flask web app that mirrors your exact Python course syllabus — chapter by ch
 
 > **Formerly "python-tutor"** — renamed for brevity.
 
-**Live:** https://py-bite.kontor.studio (also https://py-bite.onrender.com)
+**Live:** https://py-bite.kwasikontor.dev (EC2, mirrored to a second box for redundancy — the old Render/kontor.studio URLs are retired)
 
 ## Why This Exists
 
@@ -59,21 +59,13 @@ Then open [http://localhost:5000](http://localhost:5000).
 
 ---
 
-## Can I Run This on My Website?
+## Deployment
 
-**Short answer:** Not directly on static hosting (Cloudflare Pages, Netlify, GitHub Pages) because py-bite needs a Python backend to execute code and track progress.
+Needs a Python backend (not static hosting) to execute code and track progress. Currently deployed on:
 
-**Options to make it web-accessible:**
-
-| Option | Effort | Cost | Notes |
-|--------|--------|------|-------|
-| **Render** | Low | Free | Python web service tier. Auto-deploys from GitHub. Sleep after 15 min inactivity. |
-| **PythonAnywhere** | Low | Free | Flask-ready. Limited daily CPU. Good for light use. |
-| **Fly.io** | Medium | Free tier | Like war-room. Needs `fly.toml`. Stays awake if you add a credit card. |
-| **Self-hosted VPS** | Medium | $5/mo | Linode, DigitalOcean, Hetzner. Full control. |
-| **Static conversion** | High | Free | Lose code execution + progress tracking. Not recommended. |
-
-**Recommended path:** Deploy to **Render** (free, zero-config for Flask) and iframe or link it from `kontor.studio/arc-lt-labs`.
+- **EC2** (`py-bite.kwasikontor.dev`) — primary, always-on, no cold starts
+- **Render** — kept as a secondary/backup deploy target (`render.yaml` in this repo), not the live URL
+- Linked from `kontor.studio/arc-lt-labs`
 
 ---
 
