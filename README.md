@@ -12,7 +12,7 @@ Instead of passively watching videos, you are **building the tool that teaches y
 
 ## Features
 
-- **6 Chapters** covering Python Basics, Control Flow, Functions, Collections, Advanced Topics, and Object-Oriented Security Scripting (O-O/S-S)
+- **5 Chapters** covering Python Basics, Control Flow, Functions, Collections, and Advanced Python
 - **Interactive Code Editor** with a live Python subprocess runner
 - **Quiz Engine** with instant feedback and explanations
 - **Progress Tracking** stored locally in JSON
@@ -63,7 +63,7 @@ Then open [http://localhost:5000](http://localhost:5000).
 
 Needs a Python backend (not static hosting) to execute code and track progress. Currently deployed on:
 
-- **EC2** (`py-bite.kwasikontor.dev`) — primary, always-on, no cold starts
+- **EC2** (`py-bite.kwasikontor.dev`) — primary, always-on, no cold starts. Runs containerized as of 2026-07-07 (see `Dockerfile`) — nginx on the host proxies to the container's `gunicorn` on `127.0.0.1:8000`; `data/` is bind-mounted from the host so progress persists across container recreates. The old bare-metal `py-bite.service` systemd unit is retired (kept disabled, not deleted, as a documented rollback path).
 - **Render** — kept as a secondary/backup deploy target (`render.yaml` in this repo), not the live URL
 - Linked from `kontor.studio/arc-lt-labs`
 
@@ -73,6 +73,7 @@ Needs a Python backend (not static hosting) to execute code and track progress. 
 
 ```
 py-bite/
+├── Dockerfile               # Container build (non-root user, HEALTHCHECK) — live deploy uses this
 ├── py-bite.sh              # Manager script (install/start/stop/update/uninstall)
 ├── install.sh              # One-command setup (alternative)
 ├── run.sh                  # Quick launcher
