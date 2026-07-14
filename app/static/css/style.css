@@ -149,8 +149,10 @@ a:hover {
     text-shadow: 0 0 6px rgba(var(--accent-rgb), 0.45);
     transition: color 1.8s ease, text-shadow 1.8s ease;
 }
-.mercury-glyph--out  { animation: flow 2.4s ease-in-out infinite; }
-.mercury-glyph--back { animation: flow-delay 2.4s ease-in-out infinite; margin-right: 4px; }
+/* slower than the other sites on purpose — this is a learning site, the
+   glyph/bead are ambient, not something meant to catch a learner's eye */
+.mercury-glyph--out  { animation: flow 8s ease-in-out infinite; }
+.mercury-glyph--back { animation: flow-delay 8s ease-in-out infinite; margin-right: 4px; }
 
 @keyframes flow {
     0%   { opacity:0.2; transform:translateY(2px) scale(0.98); }
@@ -174,7 +176,7 @@ a:hover {
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
     box-shadow: 0 0 5px var(--accent);
     opacity: 0.8;
-    animation: mercury-crawl 6s ease-in-out infinite alternate;
+    animation: mercury-crawl 20s ease-in-out infinite alternate;
     pointer-events: none;
     transition: background 1.8s ease, box-shadow 1.8s ease;
 }
