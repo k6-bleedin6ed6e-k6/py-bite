@@ -68,12 +68,10 @@ function apply(phase) {
   r.style.setProperty('--text-muted',   phase.muted)
   r.dataset.phase = phase.name
 
-  const dot   = document.getElementById('phase-dot')
+  // phase-dot is deliberately NOT set here anymore — it's a fixed mercury-silver
+  // color (--mercury-dot in style.css) so it always reads distinct from the
+  // phase-tinted ☿⚕ glyphs on either side of it, not another phase indicator.
   const label = document.getElementById('phase-label')
-  if (dot) {
-    dot.style.background = phase.accent
-    dot.style.boxShadow  = `0 0 7px rgba(${phase.accentRgb}, 0.7)`
-  }
   if (label) {
     label.textContent = phase.label
     label.style.color = phase.accent
