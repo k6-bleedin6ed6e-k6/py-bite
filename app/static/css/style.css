@@ -142,6 +142,47 @@ a:hover {
 }
 .phase-indicator:hover { opacity: 1; }
 
+/* mercury glyph shifts color with the live circadian phase, same as .signature */
+.mercury-glyph {
+    display: inline-block;
+    color: var(--accent);
+    text-shadow: 0 0 6px rgba(var(--accent-rgb), 0.45);
+    transition: color 1.8s ease, text-shadow 1.8s ease;
+}
+.mercury-glyph:first-of-type { animation: flow 2.4s ease-in-out infinite; }
+.mercury-glyph:last-of-type  { animation: flow-delay 2.4s ease-in-out infinite; margin-right: 4px; }
+
+@keyframes flow {
+    0%   { opacity:0.2; transform:translateY(2px) scale(0.98); }
+    50%  { opacity:1;   transform:translateY(-2px) scale(1.02); }
+    100% { opacity:0.2; transform:translateY(2px) scale(0.98); }
+}
+@keyframes flow-delay {
+    0%   { opacity:1;   transform:translateY(-2px) scale(1.02); }
+    50%  { opacity:0.2; transform:translateY(2px) scale(0.98); }
+    100% { opacity:1;   transform:translateY(-2px) scale(1.02); }
+}
+
+/* a bead of quicksilver crawling the navbar's bottom divider, to-and-fro */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 5px var(--accent);
+    opacity: 0.8;
+    animation: mercury-crawl 6s ease-in-out infinite alternate;
+    pointer-events: none;
+    transition: background 1.8s ease, box-shadow 1.8s ease;
+}
+@keyframes mercury-crawl {
+    0%   { left: 0%; }
+    100% { left: 90%; }
+}
+
 
 .logo-img {
     width: 28px;
