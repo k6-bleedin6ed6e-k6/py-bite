@@ -698,3 +698,33 @@ def get_lesson(lesson_id):
             if lesson["id"] == lesson_id:
                 return lesson, ch
     return None, None
+
+
+# Supplementary reading — rendered as a real in-site page (title + context +
+# embedded viewer), not a bare link straight to a PDF file.
+RESOURCES = {
+    "network-automation-baby-steps-guide": {
+        "title": "Network Automation — Baby Steps Guide",
+        "description": "A slower, friendlier companion to the Network Automation Drivers chapter — same ground, more room to breathe.",
+        "pdf": "/static/pdfs/network-automation-baby-steps-guide.pdf",
+    },
+    "network-automation-discussion": {
+        "title": "Network Automation — Discussion",
+        "description": "Why Python for network automation: efficiency, error reduction, and agility — the case for it, in plain terms.",
+        "pdf": "/static/pdfs/network-automation-discussion.pdf",
+    },
+    "python-network-automation-pocket-reference": {
+        "title": "Python Network Automation — Pocket Reference",
+        "description": "Configuring networks with object-oriented, security-scripting style — a compact reference for the patterns used in this chapter.",
+        "pdf": "/static/pdfs/python-network-automation-pocket-reference.pdf",
+    },
+    "python-algorithms-pocket-reference": {
+        "title": "Python Algorithms — Pocket Reference",
+        "description": "Searching and sorting in object-oriented, security-scripting style — the same algorithms this chapter covers, as a quick-lookup reference.",
+        "pdf": "/static/pdfs/python-algorithms-pocket-reference.pdf",
+    },
+}
+
+
+def get_resource(slug):
+    return RESOURCES.get(slug)

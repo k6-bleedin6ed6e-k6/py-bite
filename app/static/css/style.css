@@ -582,6 +582,31 @@ a:hover {
     margin-top: 2rem;
 }
 
+.resource-viewer {
+    max-width: 900px;
+    margin: 2rem auto 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--surface-light);
+    background: var(--surface);
+}
+
+.resource-viewer iframe {
+    display: block;
+    width: 100%;
+    height: 75vh;
+    min-height: 500px;
+    border: none;
+    background: #fff;
+}
+
+@media (max-width: 640px) {
+    .resource-viewer iframe {
+        height: 60vh;
+    }
+}
+
 /* ===== Lesson Page ===== */
 .breadcrumbs {
     display: flex;

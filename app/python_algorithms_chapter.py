@@ -11,7 +11,7 @@ PYTHON_ALGORITHMS_CHAPTER = {
         "structures every check the same way."
     ),
     "further_reading": [
-        {"title": "Python Algorithms — Pocket Reference", "url": "/static/pdfs/python-algorithms-pocket-reference.pdf"},
+        {"title": "Python Algorithms — Pocket Reference", "url": "/resource/python-algorithms-pocket-reference"},
     ],
     "lessons": [
 

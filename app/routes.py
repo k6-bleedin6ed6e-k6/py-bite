@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request
-from .content import CHAPTERS, get_chapter, get_lesson
+from .content import CHAPTERS, get_chapter, get_lesson, get_resource
 from .quizzes import get_quiz
 from .progress_tracker import (
     mark_lesson_complete,
@@ -33,6 +33,14 @@ def lesson(lesson_id):
         return "Lesson not found", 404
     completed = is_lesson_complete(lesson_id)
     return render_template("lesson.html", lesson=lesson_data, chapter=ch, completed=completed)
+
+
+@bp.route("/resource/<slug>")
+def resource(slug):
+    res = get_resource(slug)
+    if not res:
+        return "Resource not found", 404
+    return render_template("resource.html", resource=res)
 
 
 @bp.route("/quiz/<chapter_id>")

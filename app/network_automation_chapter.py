@@ -26,9 +26,9 @@ NETWORK_AUTOMATION_CHAPTER = {
         "against a simulated device — no lab gear required."
     ),
     "further_reading": [
-        {"title": "Network Automation — Baby Steps Guide", "url": "/static/pdfs/network-automation-baby-steps-guide.pdf"},
-        {"title": "Network Automation — Discussion", "url": "/static/pdfs/network-automation-discussion.pdf"},
-        {"title": "Python Network Automation — Pocket Reference", "url": "/static/pdfs/python-network-automation-pocket-reference.pdf"},
+        {"title": "Network Automation — Baby Steps Guide", "url": "/resource/network-automation-baby-steps-guide"},
+        {"title": "Network Automation — Discussion", "url": "/resource/network-automation-discussion"},
+        {"title": "Python Network Automation — Pocket Reference", "url": "/resource/python-network-automation-pocket-reference"},
     ],
     "lessons": [
 
