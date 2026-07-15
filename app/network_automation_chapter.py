@@ -25,6 +25,11 @@ NETWORK_AUTOMATION_CHAPTER = {
         "every tool ships with, then practice the exact same pattern safely "
         "against a simulated device — no lab gear required."
     ),
+    "further_reading": [
+        {"title": "Network Automation — Baby Steps Guide", "url": "/static/pdfs/network-automation-baby-steps-guide.pdf"},
+        {"title": "Network Automation — Discussion", "url": "/static/pdfs/network-automation-discussion.pdf"},
+        {"title": "Python Network Automation — Pocket Reference", "url": "/static/pdfs/python-network-automation-pocket-reference.pdf"},
+    ],
     "lessons": [
 
         # ── Lesson 1 ─────────────────────────────────────────────────────────

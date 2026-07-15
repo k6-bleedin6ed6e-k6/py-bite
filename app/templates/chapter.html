@@ -8,6 +8,14 @@
     <h1>{{ chapter.title }}</h1>
     <p class="chapter-subtitle">{{ chapter.subtitle }}</p>
     <p class="chapter-description">{{ chapter.description }}</p>
+    {% if chapter.further_reading %}
+    <div class="chapter-further-reading">
+        <span class="chapter-further-reading-label">further reading</span>
+        {% for item in chapter.further_reading %}
+        <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.title }} ↗</a>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 <section class="lessons-list">

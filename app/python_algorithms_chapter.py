@@ -10,6 +10,9 @@ PYTHON_ALGORITHMS_CHAPTER = {
         "testable Python — subprocess, pathlib, and an OOP Auditor class that "
         "structures every check the same way."
     ),
+    "further_reading": [
+        {"title": "Python Algorithms — Pocket Reference", "url": "/static/pdfs/python-algorithms-pocket-reference.pdf"},
+    ],
     "lessons": [
 
         # ── Lesson 1 ─────────────────────────────────────────────────────────
