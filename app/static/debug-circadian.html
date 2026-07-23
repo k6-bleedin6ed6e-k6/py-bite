@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>circadian debug — cycles all 4 phases every 2s</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+  body { background:var(--bg); color:var(--text); font-family:sans-serif; padding:40px; text-align:center; }
+  #big-dot { width:80px; height:80px; border-radius:50%; margin:40px auto; background:var(--mercury-dot); box-shadow:0 0 30px rgba(var(--mercury-dot-rgb),0.8); transition:background-color 1.8s ease, box-shadow 1.8s ease; }
+  .row { display:flex; align-items:center; justify-content:center; gap:8px; font-size:2rem; }
+</style>
+</head>
+<body>
+  <h1>circadian phase-dot debug</h1>
+  <p>Cycles nyx → choice → desire → still-pine every 2s (real code, fake clock)</p>
+  <div class="row">
+    <span class="mercury-glyph mercury-glyph--out">☿</span><span id="phase-dot"></span><span class="mercury-glyph mercury-glyph--back">⚕</span>
+  </div>
+  <div id="big-dot"></div>
+  <p id="phase-label" style="font-size:1.5rem;font-weight:bold;"></p>
+
+  <script>
+    // same PHASES table as circadian.js, but driven by a fake clock we control
+    // instead of new Date().getHours(), so all 4 phases show within seconds.
+    const PHASES = {
+      rose:  { accent:'#ea9a97', accentRgb:'234,154,151', label:'nyx' },
+      ocean: { accent:'#5ec8ed', accentRgb:'94,200,237',  label:'choice' },
+      gold:  { accent:'#f6c177', accentRgb:'246,193,119', label:'desire' },
+      iris:  { accent:'#c4a7e7', accentRgb:'196,167,231', label:'still-pine' },
+    }
+    const order = ['rose','ocean','gold','iris']
+    let i = 0
+    function apply(phase) {
+      const r = document.documentElement
+      r.style.setProperty('--mercury-dot', phase.accent)
+      r.style.setProperty('--mercury-dot-rgb', phase.accentRgb)
+      document.getElementById('phase-label').textContent = phase.label
+      document.getElementById('phase-label').style.color = phase.accent
+    }
+    setInterval(() => { apply(PHASES[order[i % 4]]); i++ }, 2000)
+    apply(PHASES[order[0]])
+  </script>
+</body>
+</html>
