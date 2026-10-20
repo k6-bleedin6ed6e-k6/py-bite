@@ -4,7 +4,7 @@ A Python learning course with chapter lessons, quizzes, private browser-local pr
 
 > **Formerly "python-tutor"** — renamed for brevity.
 
-**Live:** Cloudflare Pages deployment is the target. Custom domains must be checked after the cutover before this status is considered live.
+**Cloudflare Pages:** `py-bite` (Git-connected; public deployment and custom-domain cutover verification in progress).
 
 ## Why This Exists
 
