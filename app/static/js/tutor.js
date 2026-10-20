@@ -25,8 +25,8 @@ function buildWidget() {
   const wrap = document.createElement('div');
   wrap.className = 'tutor-widget';
   wrap.innerHTML = `
-    <button class="tutor-widget__toggle" aria-label="ask the tutor">🐍 ask</button>
-    <div class="tutor-widget__panel" hidden>
+    <button type="button" class="tutor-widget__toggle" aria-label="Ask the AI tutor" aria-expanded="false" aria-controls="tutor-panel">🐍 ask</button>
+    <div class="tutor-widget__panel" id="tutor-panel" hidden>
       <div class="tutor-widget__reply" hidden aria-live="polite"></div>
       <p class="tutor-widget__privacy">Your submitted question and this page title are sent to the shared tutor service. Avoid personal or sensitive information.</p>
       <div class="tutor-widget__row">
@@ -47,6 +47,7 @@ function buildWidget() {
 
   toggle.addEventListener('click', () => {
     panel.hidden = !panel.hidden;
+    toggle.setAttribute('aria-expanded', String(!panel.hidden));
     if (!panel.hidden) input.focus();
   });
 

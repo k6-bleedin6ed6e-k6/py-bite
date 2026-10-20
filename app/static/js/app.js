@@ -2,6 +2,11 @@
 
 const PROGRESS_KEY = 'pybite.progress.v1';
 
+function announceStatus(message) {
+    const status = document.getElementById('app-status');
+    if (status) status.textContent = message;
+}
+
 function readProgress() {
     try {
         const parsed = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}');
@@ -77,6 +82,7 @@ function exportProgress() {
     link.download = `py-bite-progress-${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(link.href);
+    announceStatus('Progress export downloaded.');
 }
 
 async function importProgress(file) {
@@ -227,9 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('import-progress')?.addEventListener('change', async event => {
         try {
             await importProgress(event.target.files[0]);
-            alert('Progress imported for this browser.');
+            announceStatus('Progress imported for this browser.');
         } catch (error) {
-            alert(error.message || 'Could not import progress.');
+            announceStatus(error.message || 'Could not import progress.');
         } finally { event.target.value = ''; }
     });
     document.getElementById('quiz-form')?.addEventListener('submit', event => {

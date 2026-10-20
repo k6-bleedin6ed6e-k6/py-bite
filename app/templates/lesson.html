@@ -58,10 +58,10 @@
                     <button class="btn btn-small btn-reset" data-action="reset-exercise">↺ Reset</button>
                 </div>
             </div>
-            <textarea id="code-editor" class="code-editor" data-original-code="{{ lesson.exercise.starter_code | e }}" spellcheck="false">{{ lesson.exercise.starter_code }}</textarea>
+            <textarea id="code-editor" class="code-editor" aria-label="Python code editor" data-original-code="{{ lesson.exercise.starter_code | e }}" spellcheck="false">{{ lesson.exercise.starter_code }}</textarea>
             <div class="output-wrap">
                 <div class="output-header">Output</div>
-                <pre id="code-output" class="code-output"></pre>
+                <pre id="code-output" class="code-output" role="status" aria-live="polite" aria-atomic="true"></pre>
             </div>
         </div>
     </section>

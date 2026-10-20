@@ -4,7 +4,9 @@ A Python learning course with chapter lessons, quizzes, private browser-local pr
 
 > **Formerly "python-tutor"** — renamed for brevity.
 
-**Cloudflare Pages:** `py-bite` (Git-connected; public deployment and custom-domain cutover verification in progress).
+**Production:** [py-bite.pages.dev](https://py-bite.pages.dev)
+
+**Custom domains:** [py-bite.kwasikontor.dev](https://py-bite.kwasikontor.dev) · [py-bite.kontor.studio](https://py-bite.kontor.studio) (served through the existing Cloudflare Workers).
 
 ## Why This Exists
 
@@ -72,7 +74,7 @@ python3 -m pip install -r requirements.txt
 python3 tools/build-static.py
 ```
 
-The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The two existing custom-domain Workers use the small, versioned static proxy in `cloudflare/py-bite-pages-proxy.js`; it forwards only GET/HEAD and never forwards cookies or authorization headers. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; the site has no Pages Functions. Keep the former origin available as a rollback until both custom domains are confirmed against the Pages release.
+The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The two custom-domain Workers use the versioned proxy in `cloudflare/py-bite-pages-proxy.js`; it forwards only GET/HEAD and never forwards cookies or authorization headers. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; there are no Pages Functions or app-owned server endpoints. Earlier Pages deployments remain available for rollback; the former PythonAnywhere and Render upstreams are not verified fallbacks.
 
 The optional AI tutor remains an explicit external feature. When used, it sends the submitted question and page title to the shared `kontor-tutor-worker`; the widget displays this before the user submits a question.
 
