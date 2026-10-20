@@ -72,7 +72,7 @@ python3 -m pip install -r requirements.txt
 python3 tools/build-static.py
 ```
 
-The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; the site has no Pages Functions. Keep the former origin available as a rollback until both custom domains are confirmed against the Pages release.
+The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The two existing custom-domain Workers use the small, versioned static proxy in `cloudflare/py-bite-pages-proxy.js`; it forwards only GET/HEAD and never forwards cookies or authorization headers. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; the site has no Pages Functions. Keep the former origin available as a rollback until both custom domains are confirmed against the Pages release.
 
 The optional AI tutor remains an explicit external feature. When used, it sends the submitted question and page title to the shared `kontor-tutor-worker`; the widget displays this before the user submits a question.
 
