@@ -75,3 +75,5 @@
 @media (max-width: 480px) {
   .tutor-widget { right: 12px; bottom: 12px; }
 }
+
+.tutor-widget__privacy { margin: 10px 0; color: var(--muted); font-size: 12px; line-height: 1.45; }

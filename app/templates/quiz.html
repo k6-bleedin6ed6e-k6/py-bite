@@ -19,7 +19,7 @@
 
     <form id="quiz-form" data-chapter="{{ chapter.id }}">
         {% for q in quiz.questions %}
-        <div class="quiz-question" data-question="{{ q.id }}">
+        <div class="quiz-question" data-question="{{ q.id }}" data-answer-type="{{ q.type }}" data-answer="{{ q.answer | string | e }}" data-explanation="{{ q.explanation | e }}">
             <p class="question-text"><strong>{{ loop.index }}.</strong> {{ q.question }}</p>
             {% if q.type == 'multiple_choice' %}
             <div class="options">
@@ -59,14 +59,4 @@
         <a href="/" class="btn btn-ghost">Dashboard</a>
     </div>
 </article>
-{% endblock %}
-
-{% block scripts %}
-<script>
-const QUIZ_ANSWERS = {
-    {% for q in quiz.questions %}
-    "{{ q.id }}": { "type": "{{ q.type }}", "answer": {{ q.answer | tojson }}, "explanation": {{ q.explanation | tojson }} }{% if not loop.last %},{% endif %}
-    {% endfor %}
-};
-</script>
 {% endblock %}

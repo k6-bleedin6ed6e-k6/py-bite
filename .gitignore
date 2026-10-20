@@ -18,6 +18,9 @@ ENV/
 
 # Local user data
 data/*.json
+dist/
+node_modules/
+.wrangler/
 
 # OS
 .DS_Store

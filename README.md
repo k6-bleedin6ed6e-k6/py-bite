@@ -1,10 +1,10 @@
 # 🐍 py-bite
 
-A Flask web app that mirrors your exact Python course syllabus — chapter by chapter, with quizzes, progress tracking, and an interactive code runner.
+A Python learning course with chapter lessons, quizzes, private browser-local progress, and an isolated in-browser Python runner. Flask templates are rendered to static pages for Cloudflare Pages.
 
 > **Formerly "python-tutor"** — renamed for brevity.
 
-**Live:** https://py-bite.kwasikontor.dev (EC2, mirrored to a second box for redundancy — the old Render/kontor.studio URLs are retired)
+**Live:** Cloudflare Pages deployment is the target. Custom domains must be checked after the cutover before this status is considered live.
 
 ## Why This Exists
 
@@ -12,11 +12,11 @@ Instead of passively watching videos, you are **building the tool that teaches y
 
 ## Features
 
-- **5 Chapters** covering Python Basics, Control Flow, Functions, Collections, and Advanced Python
-- **Interactive Code Editor** with a live Python subprocess runner
+- **12 Chapters and 51 lessons** across Python, networking, automation, and security
+- **Interactive Code Editor** running pinned Pyodide in a dedicated browser worker; course code never executes on the web host
 - **Quiz Engine** with instant feedback and explanations
-- **Progress Tracking** stored locally in JSON
-- **Rose Pine Moon × Phosphor Noir UI** with circadian engine — phases shift color palette by time of day (renewal · choice · desire · nyx)
+- **Progress Tracking** stored in this browser only, with JSON export/import for portability
+- **Rose Pine Moon × Phosphor Noir UI** with circadian engine — phases shift color palette by canonical time of day (Nyx · Choice · Desire · Still-Pine)
 - **Manager Script** — install, start, stop, update, uninstall like `war-room`
 
 ---
@@ -59,57 +59,47 @@ Then open [http://localhost:5000](http://localhost:5000).
 
 ---
 
-## Deployment
+## Cloudflare Pages
 
-Needs a Python backend (not static hosting) to execute code and track progress. Currently deployed on:
+The production build is static. It has no server-side code-execution or progress API. Python runs in a browser worker using the locally hosted Pyodide 314.0.7 runtime; network access is disabled for learner code. OS-specific examples that use `subprocess` need a real local Linux environment.
 
-- **EC2** (`py-bite.kwasikontor.dev`) — primary, always-on, no cold starts. Runs containerized as of 2026-07-07 (see `Dockerfile`) — nginx on the host proxies to the container's `gunicorn` on `127.0.0.1:8000`; `data/` is bind-mounted from the host so progress persists across container recreates. The old bare-metal `py-bite.service` systemd unit is retired (kept disabled, not deleted, as a documented rollback path).
-- **Render** — kept as a secondary/backup deploy target (`render.yaml` in this repo), not the live URL
-- Linked from `kontor.studio/arc-lt-labs`
+Progress and quiz scores are stored in browser `localStorage` on the current device and origin. They are not synced to a server. Use **Export progress** and **Import progress** to move a backup between browsers or devices. Previously stored host-side progress is not included in the static site and must be exported from its source if it is still available.
+
+Build locally from a clean checkout:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 tools/build-static.py
+```
+
+The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; the site has no Pages Functions. Keep the former origin available as a rollback until both custom domains are confirmed against the Pages release.
+
+The optional AI tutor remains an explicit external feature. When used, it sends the submitted question and page title to the shared `kontor-tutor-worker`; the widget displays this before the user submits a question.
 
 ---
 
 ## Project Structure
 
-```
+```text
 py-bite/
-├── Dockerfile               # Container build (non-root user, HEALTHCHECK) — live deploy uses this
-├── py-bite.sh              # Manager script (install/start/stop/update/uninstall)
-├── install.sh              # One-command setup (alternative)
-├── run.sh                  # Quick launcher
-├── run.py                  # Flask entry point
-├── requirements.txt        # Python deps
-├── README.md
-├── app/
-│   ├── __init__.py         # Flask app factory
-│   ├── routes.py           # URL routes
-│   ├── content.py          # Course content (5 chapters)
-│   ├── quizzes.py          # Quiz data
-│   ├── code_runner.py      # Safe code execution
-│   ├── progress_tracker.py # JSON-based progress
-│   ├── static/
-│   │   ├── css/style.css
-│   │   └── js/app.js
-│   └── templates/
-│       ├── base.html
-│       ├── index.html
-│       ├── chapter.html
-│       ├── lesson.html
-│       └── quiz.html
-└── data/
-    └── .gitkeep            # progress.json lives here (gitignored)
+├── app/content.py                 # Course lessons and resources
+├── app/quizzes.py                 # Chapter quiz data
+├── app/routes.py                  # Flask template routes used by the static builder
+├── app/static/js/app.js           # Browser-local progress, quizzes, and editor UI
+├── app/static/js/python-worker.js  # Isolated browser Python runner
+├── app/static/vendor/pyodide/     # Pinned, self-hosted runtime and notices
+├── app/templates/                 # Course page templates
+├── tools/build-static.py          # Render the Pages site into dist/
+└── wrangler.toml                  # Cloudflare Pages build output configuration
 ```
-
----
 
 ## How It Works
 
-- **Content** is stored per-chapter in `app/` — easy to edit and extend.
-- **Quizzes** live in `app/quizzes.py`. Each chapter has questions with multiple choice and true/false formats.
-- **Progress** is saved to `data/progress.json` — no database needed.
-- **Code Execution** runs in a subprocess with a 5-second timeout. Safe mode uses AST filtering for simple expressions.
-
----
+- Course content and quiz answers are rendered into static HTML during the build.
+- Progress and quiz scores stay in the current browser's local storage. Export/import files are the portability mechanism; there is no shared progress database.
+- Learner Python runs in a dedicated Web Worker using the bundled Pyodide runtime, with a five-second execution limit and bounded output. Server-side execution endpoints have been removed.
+- OS-specific lessons that call `subprocess` are demonstrations for a real local Python/Linux environment; those commands cannot run in the browser sandbox.
+- The optional tutor is a separate service. The widget explains what it sends before submission.
 
 ## Customizing
 
@@ -120,8 +110,9 @@ Want to add a new chapter? Edit `app/content.py` and follow the existing structu
 ## Tech Stack
 
 - Python 3.8+
-- Flask
-- Vanilla HTML / CSS / JS
+- Flask (build-time template renderer)
+- Cloudflare Pages (static hosting)
+- Vanilla HTML / CSS / JS and Pyodide
 
 ## License
 

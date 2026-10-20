@@ -27,12 +27,13 @@ function buildWidget() {
   wrap.innerHTML = `
     <button class="tutor-widget__toggle" aria-label="ask the tutor">🐍 ask</button>
     <div class="tutor-widget__panel" hidden>
-      <div class="tutor-widget__reply" hidden></div>
+      <div class="tutor-widget__reply" hidden aria-live="polite"></div>
+      <p class="tutor-widget__privacy">Your submitted question and this page title are sent to the shared tutor service. Avoid personal or sensitive information.</p>
       <div class="tutor-widget__row">
-        <input class="tutor-widget__input" placeholder="what's tripping you up?" maxlength="500" />
-        <button class="tutor-widget__send">ask</button>
+        <input class="tutor-widget__input" placeholder="what's tripping you up?" maxlength="500" aria-label="Question for the AI tutor" />
+        <button class="tutor-widget__send" type="button">ask</button>
       </div>
-      <p class="tutor-widget__error" hidden></p>
+      <p class="tutor-widget__error" hidden role="status"></p>
     </div>
   `;
   document.body.appendChild(wrap);
