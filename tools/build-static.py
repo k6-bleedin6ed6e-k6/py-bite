@@ -67,6 +67,9 @@ def main() -> None:
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Frame-Options: SAMEORIGIN
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; connect-src 'self' https://kontor-tutor-worker.kwasikontor45-995.workers.dev; font-src 'self' data:
+
+/static/js/python-worker.js
+  Content-Security-Policy: default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'none'; form-action 'none'
 ''', encoding='utf-8')
     print(f'Built {1 + len(CHAPTERS) * 2 + len(lesson_ids) + len(RESOURCES)} pages, {len(lesson_ids)} lessons, {len(redirects)} redirects into {DIST}')
 

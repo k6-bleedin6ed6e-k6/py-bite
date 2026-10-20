@@ -63,7 +63,7 @@ Then open [http://localhost:5000](http://localhost:5000).
 
 ## Cloudflare Pages
 
-The production build is static. It has no server-side code-execution or progress API. Python runs in a browser worker using the locally hosted Pyodide 314.0.7 runtime; network access is disabled for learner code. OS-specific examples that use `subprocess` need a real local Linux environment.
+The production build is static. It has no server-side code-execution or progress API. Python runs in a browser worker using the locally hosted Pyodide 314.0.7 runtime; the worker has a separate CSP that allows only same-origin runtime assets and blocks remote connections, in addition to a five-second execution limit and bounded output. OS-specific examples that use `subprocess` need a real local Linux environment.
 
 Progress and quiz scores are stored in browser `localStorage` on the current device and origin. They are not synced to a server. Use **Export progress** and **Import progress** to move a backup between browsers or devices. Previously stored host-side progress is not included in the static site and must be exported from its source if it is still available.
 
