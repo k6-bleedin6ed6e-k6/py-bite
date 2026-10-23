@@ -210,6 +210,7 @@ NETWORK_MANAGEMENT_CHAPTER = {
                         "print('SNMPv3 config lines (auth + encryption):')\n"
                         "print(snmpv3_config)"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "The config blocks above are Cisco IOS syntax — they can't run "
                         "in Python directly. Displaying them as strings lets you read "
@@ -391,6 +392,7 @@ NETWORK_MANAGEMENT_CHAPTER = {
                         "for line in password_policy_config.strip().splitlines():\n"
                         "    print(f'  {line}')"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "This is Cisco IOS syntax shown as a Python string — "
                         "study the commands, then practice them in Packet Tracer."

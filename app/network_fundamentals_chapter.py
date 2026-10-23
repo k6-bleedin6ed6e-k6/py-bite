@@ -140,6 +140,7 @@ NETWORK_FUNDAMENTALS_CHAPTER = {
                         "traceroute 8.8.8.8\n"
                         "show cdp neighbors"
                     ),
+                    "run_in_browser": False,
                     "note": "This is real Cisco IOS syntax -- not Python. You'd type this in a terminal/console session, not 'Run' it here.",
                 },
                 {
@@ -234,6 +235,7 @@ NETWORK_FUNDAMENTALS_CHAPTER = {
                         "snmp-server group ADMINGROUP v3 priv\n"
                         "snmp-server user netadmin ADMINGROUP v3 auth sha MyAuthPass123 priv aes 128 MyPrivPass123"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- reference only, not runnable Python.",
                 },
                 {
@@ -320,6 +322,7 @@ NETWORK_FUNDAMENTALS_CHAPTER = {
                         "ip flow-export destination 192.168.1.100 2055\n"
                         "ip flow-export version 9"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- reference only.",
                 },
                 {
@@ -394,6 +397,7 @@ NETWORK_FUNDAMENTALS_CHAPTER = {
                         "\n"
                         "show ip sla statistics"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- reference only.",
                 },
                 {

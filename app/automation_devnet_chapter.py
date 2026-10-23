@@ -221,6 +221,7 @@ AUTOMATION_DEVNET_CHAPTER = {
                         "        lines:\n"
                         "          - snmp-server community MyReadOnlyString RO"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Ansible YAML syntax -- run with `ansible-playbook snmp-config.yml`, not Python.",
                 },
             ],
@@ -309,6 +310,7 @@ AUTOMATION_DEVNET_CHAPTER = {
                         "response = requests.get(url, headers=headers, verify=False)\n"
                         "print(response.json())"
                     ),
+                    "run_in_browser": False,
                     "note": "Needs the `requests` library and a real DNA Center instance -- won't run in this sandbox. Try Cisco's free DevNet DNA Center Sandbox for the real thing.",
                 },
             ],

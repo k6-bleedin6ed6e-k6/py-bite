@@ -42,6 +42,7 @@ NETWORK_SECURITY_CHAPTER = {
                         " transport input ssh\n"
                         " login local"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- forces SSH-only remote management.",
                 },
                 {
@@ -119,6 +120,7 @@ NETWORK_SECURITY_CHAPTER = {
                         "security passwords min-length 10\n"
                         "login block-for 120 attempts 3 within 60"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- reference only.",
                 },
                 {
@@ -198,6 +200,7 @@ NETWORK_SECURITY_CHAPTER = {
                         "interface GigabitEthernet0/0\n"
                         " ip access-group 110 in"
                     ),
+                    "run_in_browser": False,
                     "note": "Real Cisco IOS syntax -- reference only.",
                 },
                 {
@@ -285,6 +288,7 @@ NETWORK_SECURITY_CHAPTER = {
                         " security wpa akm 802.1x\n"
                         " radius_server auth add 1 192.168.1.50 1812 ascii MyRadiusSecret"
                     ),
+                    "run_in_browser": False,
                     "note": "Conceptual Cisco WLC-style syntax -- reference only.",
                 },
                 {

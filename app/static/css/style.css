@@ -722,6 +722,28 @@ a:hover {
     right: 0.5rem;
 }
 
+.code-run-unavailable {
+    display: inline-flex;
+    margin: 0 1rem 1rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--warning);
+    border-radius: 999px;
+    color: var(--warning);
+    font-size: 0.8rem;
+}
+
+.runner-capability {
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--surface);
+    color: var(--subtle);
+    font-size: 0.9rem;
+}
+
+.runner-capability strong { color: var(--text); }
+
 /* ===== Code Editor ===== */
 .exercise {
     background: var(--surface);

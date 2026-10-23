@@ -2,6 +2,15 @@ import { loadPyodide } from '../vendor/pyodide/pyodide.mjs';
 
 let runtimePromise;
 let inputLines = [];
+
+function explainRuntimeError(error) {
+    const message = String(error);
+    if (/emscripten does not support processes/i.test(message)) {
+        return 'This code tried to start an operating-system process. The browser Python runner cannot launch programs or run shell commands. Save the code as a .py file and run it in a local Python environment or isolated lab with the required tools installed. Use only systems you are authorized to test.';
+    }
+    return message;
+}
+
 self.onmessage = async ({ data }) => {
     try {
         const incomingLines = Array.isArray(data.stdinLines) ? data.stdinLines : [];
@@ -45,7 +54,9 @@ sys.stderr = _py_bite_err
             self.postMessage({ stdout: stdout + (stderr ? `\n${stderr}` : '') });
         } catch (error) {
             const stderr = pyodide.runPython('_py_bite_err.getvalue()');
-            self.postMessage({ error: `${error}\n${stderr}`.trim() });
+            const friendlyError = explainRuntimeError(error);
+            const isProcessLimit = friendlyError !== String(error);
+            self.postMessage({ error: isProcessLimit ? friendlyError : `${error}\n${stderr}`.trim() });
         }
     } catch (error) {
         self.postMessage({ error: String(error) });

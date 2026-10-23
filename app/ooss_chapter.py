@@ -185,6 +185,7 @@ OOSS_CHAPTER = {
                         "\n"
                         'scan_directory(".")'
                     ),
+                    "run_in_browser": False,
                     "note": "Run this locally — it scans your actual filesystem from the current directory.",
                 },
                 {
@@ -391,6 +392,7 @@ OOSS_CHAPTER = {
                         "    status = \"OPEN\" if check_port(target, port) else \"closed\"\n"
                         '    print(f"Port {port}: {status}")'
                     ),
+                    "run_in_browser": False,
                     "note": "scanme.nmap.org is provided by the Nmap project specifically for legal scanning practice.",
                 },
                 {
@@ -770,6 +772,7 @@ OOSS_CHAPTER = {
                         "    else:\n"
                         "        self.warn(f'{label}  got {val}, want {want}')"
                     ),
+                    "run_in_browser": False,
                     "note": "Run locally: sudo python arc_sec_audit.py — subprocess requires a real Linux shell.",
                 },
             ],

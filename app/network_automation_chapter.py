@@ -93,6 +93,7 @@ NETWORK_AUTOMATION_CHAPTER = {
                         "print(ssh.send_command('uptime'))\n"
                         "ssh.close()"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "Lab-only: needs `pip install paramiko` plus a reachable SSH "
                         "host. Running it here raises ModuleNotFoundError — that's "
@@ -291,6 +292,7 @@ NETWORK_AUTOMATION_CHAPTER = {
                         "print(net.get_version())\n"
                         "net.disconnect()"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "Lab-only: needs `pip install netmiko` plus a reachable device. "
                         "Running it here raises ModuleNotFoundError — expected."
@@ -499,6 +501,7 @@ NETWORK_AUTOMATION_CHAPTER = {
                         "runner = ansible_fleet_runner('backup.yml', 'inventory.ini')\n"
                         "print(runner.run())"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "Lab-only: the top two blocks are YAML and INI, not Python — "
                         "running this here raises a SyntaxError, which is expected. The "
@@ -673,6 +676,7 @@ NETWORK_AUTOMATION_CHAPTER = {
                         "    napalm.rollback()\n"
                         "napalm.disconnect()"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "Lab-only: needs `pip install napalm` plus the matching vendor "
                         "driver and a reachable device. Running it here raises "
@@ -904,6 +908,7 @@ NETWORK_AUTOMATION_CHAPTER = {
                         "print(legacy.send_command('show version'))\n"
                         "legacy.close()"
                     ),
+                    "run_in_browser": False,
                     "note": (
                         "Lab-only: needs a real reachable legacy device. Running it here "
                         "will hit a connection error or time out after 5 seconds — "

@@ -41,7 +41,11 @@
         {% if section.code %}
         <div class="code-block">
             <pre><code class="language-python">{{ section.code }}</code></pre>
+            {% if section.run_in_browser is defined and not section.run_in_browser %}
+            <span class="code-run-unavailable" role="note">Local Python / lab needed · this example does not run in the browser editor</span>
+            {% else %}
             <button class="btn btn-small btn-run" data-action="run-example" data-code="{{ section.code | e }}">▶ Run in Editor</button>
+            {% endif %}
         </div>
         {% endif %}
     </section>
@@ -63,7 +67,7 @@
                 <summary>Program input <span>(for Python <code>input()</code>)</span></summary>
                 <label for="program-input">Enter one value per line, in the order your code asks for it.</label>
                 <textarea id="program-input" rows="3" maxlength="20000" aria-describedby="program-input-help" spellcheck="false" placeholder="For example, a name or number"></textarea>
-                <p id="program-input-help">Runs in your browser. This is a Python runner, not a system shell.</p>
+            <p id="program-input-help">Runs in browser Python (Pyodide), not a system shell. It cannot launch programs, use your computer's files, or connect to network devices.</p>
             </details>
             <div class="output-wrap">
                 <div class="output-header">Output</div>
@@ -71,6 +75,10 @@
             </div>
         </div>
     </section>
+
+    <aside class="runner-capability" role="note">
+        <strong>Browser Python</strong> runs lesson code in an isolated WebAssembly worker. It cannot start OS processes or shell commands, access your computer's files, or connect to network devices. Save those projects as <code>.py</code> files and use a local Python environment or isolated lab with the required tools.
+    </aside>
 
     <div class="lesson-nav">
         <a href="/chapter/{{ chapter.id }}" class="btn btn-ghost">← Back to Chapter</a>
