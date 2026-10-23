@@ -1,9 +1,19 @@
 import { loadPyodide } from '../vendor/pyodide/pyodide.mjs';
 
 let runtimePromise;
+let inputLines = [];
 self.onmessage = async ({ data }) => {
     try {
-        runtimePromise ||= loadPyodide({ indexURL: new URL('../vendor/pyodide/', import.meta.url).href });
+        const incomingLines = Array.isArray(data.stdinLines) ? data.stdinLines : [];
+        if (incomingLines.length > 100) throw new Error('Program input is limited to 100 lines.');
+        if (incomingLines.some(line => typeof line !== 'string')) throw new Error('Program input must contain text lines.');
+        const inputSize = incomingLines.reduce((total, line) => total + line.length, 0);
+        if (inputSize > 20000) throw new Error('Program input is limited to 20,000 characters.');
+        inputLines = incomingLines.slice();
+        runtimePromise ||= loadPyodide({
+            indexURL: new URL('../vendor/pyodide/', import.meta.url).href,
+            stdin: () => inputLines.length ? inputLines.shift() : null
+        });
         const pyodide = await runtimePromise;
         // Disable network APIs after the pinned, same-origin runtime has loaded.
         self.fetch = () => Promise.reject(new Error('Network access is disabled in the course runner.'));

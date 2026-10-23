@@ -15,7 +15,7 @@ Instead of passively watching videos, you are **building the tool that teaches y
 ## Features
 
 - **12 Chapters and 51 lessons** across Python, networking, automation, and security
-- **Interactive Code Editor** running pinned Pyodide in a dedicated browser worker; course code never executes on the web host
+- **Interactive Code Editor** running pinned Pyodide in a dedicated browser worker; course code never executes on the web host. Snippets using Python `input()` accept one value per line in the expandable Program input area. This is a browser Python runner, not a system shell.
 - **Quiz Engine** with instant feedback and explanations
 - **Progress Tracking** stored in this browser only, with JSON export/import for portability
 - **Rose Pine Moon × Phosphor Noir UI** with circadian engine — phases shift color palette by canonical time of day (Nyx · Choice · Desire · Still-Pine)

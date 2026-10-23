@@ -107,11 +107,29 @@ function showOutput(output, text, kind = '') {
     output.textContent = text;
 }
 
+function getProgramInputLines() {
+    const field = document.getElementById('program-input');
+    const value = field?.value ?? '';
+    if (value.length > 20000) return null;
+    return value === '' ? [] : value.replace(/\r/g, '').split('\n');
+}
+
+function syncProgramInputPanel(source) {
+    const panel = document.getElementById('program-input-panel');
+    if (panel && /\binput\s*\(/.test(source)) panel.open = true;
+}
+
 function runCode(source, output) {
     if (source.length > 100000) {
         showOutput(output, 'Stopped: source is limited to 100,000 characters.', 'error');
         return;
     }
+    const stdinLines = getProgramInputLines();
+    if (!stdinLines) {
+        showOutput(output, 'Stopped: program input is limited to 20,000 characters.', 'error');
+        return;
+    }
+    syncProgramInputPanel(source);
     showOutput(output, 'Starting isolated browser Python…');
     const worker = new Worker('/static/js/python-worker.js', { type: 'module', name: 'py-bite-python' });
     let timeout = setTimeout(() => {
@@ -138,7 +156,7 @@ function runCode(source, output) {
         worker.terminate();
         showOutput(output, 'The local Python runtime could not start. Reload the page and try again.', 'error');
     };
-    worker.postMessage({ source });
+    worker.postMessage({ source, stdinLines });
 }
 
 function runExercise() {
@@ -150,8 +168,11 @@ function runExercise() {
 function resetExercise() {
     const editor = document.getElementById('code-editor');
     const output = document.getElementById('code-output');
+    const input = document.getElementById('program-input');
     if (editor) editor.value = editor.dataset.originalCode || '';
+    if (input) input.value = '';
     if (output) showOutput(output, '');
+    syncProgramInputPanel(editor?.value || '');
 }
 
 function markComplete(lessonId, button) {
@@ -219,6 +240,7 @@ document.addEventListener('click', event => {
         const output = document.getElementById('code-output');
         if (editor && output) {
             editor.value = action.dataset.code || '';
+            syncProgramInputPanel(editor.value);
             runCode(editor.value, output);
             output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
@@ -228,6 +250,11 @@ document.addEventListener('click', event => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const editor = document.getElementById('code-editor');
+    if (editor) {
+        syncProgramInputPanel(editor.value);
+        editor.addEventListener('input', () => syncProgramInputPanel(editor.value));
+    }
     updateGlobalProgress();
     document.getElementById('export-progress')?.addEventListener('click', exportProgress);
     document.getElementById('import-progress')?.addEventListener('change', async event => {

@@ -59,6 +59,12 @@
                 </div>
             </div>
             <textarea id="code-editor" class="code-editor" aria-label="Python code editor" data-original-code="{{ lesson.exercise.starter_code | e }}" spellcheck="false">{{ lesson.exercise.starter_code }}</textarea>
+            <details class="program-input" id="program-input-panel">
+                <summary>Program input <span>(for Python <code>input()</code>)</span></summary>
+                <label for="program-input">Enter one value per line, in the order your code asks for it.</label>
+                <textarea id="program-input" rows="3" maxlength="20000" aria-describedby="program-input-help" spellcheck="false" placeholder="For example, a name or number"></textarea>
+                <p id="program-input-help">Runs in your browser. This is a Python runner, not a system shell.</p>
+            </details>
             <div class="output-wrap">
                 <div class="output-header">Output</div>
                 <pre id="code-output" class="code-output" role="status" aria-live="polite" aria-atomic="true"></pre>
