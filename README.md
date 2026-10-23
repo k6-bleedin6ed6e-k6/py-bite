@@ -76,7 +76,7 @@ python3 tools/build-static.py
 
 The Cloudflare Pages project is Git-connected to this repository and builds `main` with `python3 -m pip install --user -r requirements.txt && python3 tools/build-static.py`; pushes to `main` publish automatically. The two custom-domain Workers use the versioned proxy in `cloudflare/py-bite-pages-proxy.js`; it forwards only GET/HEAD and never forwards cookies or authorization headers. The generated output has 80 pages and 79 route redirects. Cloudflare security headers are generated into `dist/_headers`; there are no Pages Functions or app-owned server endpoints. Earlier Pages deployments remain available for rollback; the former PythonAnywhere and Render upstreams are not verified fallbacks.
 
-The optional AI tutor remains an explicit external feature. When used, it sends the submitted question and page title to the shared `kontor-tutor-worker`; the widget displays this before the user submits a question.
+The optional AI tutor is an explicit external feature. When a learner submits a question, the page sends that question and lesson title to the shared Worker, which forwards them to Groq. The widget explains this before sending; it does not send lesson progress. Avoid personal or sensitive information.
 
 ---
 
